@@ -9,7 +9,6 @@ require("./utils/cronJobs");
 const app = express();
 app.use(cors({
   origin: "https://medicine-reminder-app-ashen.vercel.app"
-  credentials: true
 }));
 app.use(express.json());
 
