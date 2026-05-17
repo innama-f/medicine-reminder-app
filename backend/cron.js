@@ -64,6 +64,7 @@ async function sendNotification(med) {
   }
 
   try {
+    console.log("Medicine token:", med.token);
 
     await admin.messaging().send({
 
