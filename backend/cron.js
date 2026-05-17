@@ -67,16 +67,17 @@ async function sendNotification(med) {
 
     await admin.messaging().send({
 
-      token: med.token,
+  token: med.token,
 
-      notification: {
-        title: "Medicine Reminder",
-        body:
-          `Take ${med.name} (${med.doseAmount} ${med.doseUnit})`
-      }
+  webpush: {
+    notification: {
+      title: "Medicine Reminder",
+      body: `Take ${med.name} (${med.doseAmount} ${med.doseUnit})`,
+      icon: "/logo192.png"
+    }
+  }
 
-    });
-
+});
     console.log(
       "✅ Notification sent for",
       med.name
