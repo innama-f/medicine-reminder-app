@@ -52,6 +52,8 @@ cron.schedule("* * * * *", async () => {
 
   });
 
+}, {
+  timezone: "Asia/Kolkata"
 });
 
 async function sendNotification(med) {
