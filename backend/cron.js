@@ -10,13 +10,29 @@ cron.schedule("* * * * *", async () => {
 
   const now = new Date();
 
-  const currentTime =
-    now.toTimeString().slice(0,5);
+  const currentTime = now.toLocaleTimeString(
+  "en-GB",
+  {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Kolkata"
+  }
+);
+console.log(
+  "Current:",
+  currentTime
+);
 
   meds.forEach(async (med) => {
 
     // Skip if already taken
     if (med.status === "taken") return;
+
+    console.log(
+  "Medicine:",
+  med.time
+);
 
     // First reminder
     if (
