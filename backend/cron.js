@@ -1,13 +1,11 @@
 const cron = require("node-cron");
 const Medicine = require("./models/Medicine");
 const admin = require("./firebase");
-console.log("🚀 CRON FILE LOADED");
 
 cron.schedule(
   "* * * * *",
   async () => {
 
-    console.log("⏰ CRON RUNNING");
 
     const meds = await Medicine.find({
       reminder: true
@@ -25,7 +23,6 @@ cron.schedule(
       }
     );
 
-    console.log("Current:", currentTime);
 
     meds.forEach(async (med) => {
 
@@ -78,7 +75,6 @@ async function sendNotification(med) {
   }
 
   try {
-    console.log("Medicine token:", med.token);
 
     await admin.messaging().send({
 
