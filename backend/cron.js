@@ -1,8 +1,10 @@
 const cron = require("node-cron");
 const Medicine = require("./models/Medicine");
 const admin = require("./firebase");
+console.log("🚀 CRON FILE LOADED");
 
 cron.schedule("* * * * *", async () => {
+  console.log("⏰ CRON RUNNING");
 
   const meds = await Medicine.find({
     reminder: true
