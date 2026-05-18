@@ -20,35 +20,16 @@ cron.schedule("* * * * *", async () => {
 
     // First reminder
     if (
-      med.time === currentTime &&
-      !med.lastReminder
+      med.time === currentTime
     ) {
 
       await sendNotification(med);
-
-      med.lastReminder = new Date();
-
-      await med.save();
 
       return;
     }
 
     // Repeat every 30 mins
-    if (med.lastReminder) {
-
-      const diff =
-        (now - new Date(med.lastReminder))
-        / (1000 * 60);
-
-      if (diff >= 15) {
-
-        await sendNotification(med);
-
-        med.lastReminder = new Date();
-
-        await med.save();
-      }
-    }
+   
 
   });
 
