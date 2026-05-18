@@ -3,58 +3,49 @@ const Medicine = require("./models/Medicine");
 const admin = require("./firebase");
 console.log("🚀 CRON FILE LOADED");
 
-cron.schedule("* * * * *", async () => {
-  console.log("⏰ CRON RUNNING");
+cron.schedule(
+  "* * * * *",
+  async () => {
 
-  const meds = await Medicine.find({
-    reminder: true
-  });
+    console.log("⏰ CRON RUNNING");
 
-  const now = new Date();
+    const meds = await Medicine.find({
+      reminder: true
+    });
 
-  const currentTime = now.toLocaleTimeString(
-  "en-GB",
+    const now = new Date();
+
+    const currentTime = now.toLocaleTimeString(
+      "en-GB",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Kolkata"
+      }
+    );
+
+    console.log("Current:", currentTime);
+
+    meds.forEach(async (med) => {
+
+      console.log("Medicine:", med.time);
+
+      if (med.status === "taken") return;
+
+      if (med.time === currentTime) {
+
+        await sendNotification(med);
+
+      }
+
+    });
+
+  },
   {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Kolkata"
+    timezone: "Asia/Kolkata"
   }
 );
-console.log(
-  "Current:",
-  currentTime
-);
-
-  meds.forEach(async (med) => {
-
-    // Skip if already taken
-    if (med.status === "taken") return;
-
-    console.log(
-  "Medicine:",
-  med.time
-);
-
-    // First reminder
-    if (
-      med.time === currentTime
-    ) {
-
-      await sendNotification(med);
-
-      return;
-    }
-
-    // Repeat every 30 mins
-   
-
-  });
-
-}, {
-  timezone: "Asia/Kolkata"
-});
-
 async function sendNotification(med) {
 
   if (!med.token) {
