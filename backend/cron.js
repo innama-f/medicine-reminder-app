@@ -53,7 +53,7 @@ cron.schedule(
       (now - new Date(med.lastReminder))
       / (1000 * 60);
 
-    if (diff >= 2) {
+    if (diff >= 30) {
 
       await sendNotification(med);
 
