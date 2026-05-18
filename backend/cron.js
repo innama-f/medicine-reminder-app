@@ -29,17 +29,41 @@ cron.schedule(
 
     meds.forEach(async (med) => {
 
-      console.log("Medicine:", med.time);
+  if (med.status === "taken") return;
 
-      if (med.status === "taken") return;
+  // FIRST REMINDER
+  if (
+    med.time === currentTime &&
+    !med.lastReminder
+  ) {
 
-      if (med.time === currentTime) {
+    await sendNotification(med);
 
-        await sendNotification(med);
+    med.lastReminder = new Date();
 
-      }
+    await med.save();
 
-    });
+    return;
+  }
+
+  // REPEAT EVERY 30 MINUTES
+  if (med.lastReminder) {
+
+    const diff =
+      (now - new Date(med.lastReminder))
+      / (1000 * 60);
+
+    if (diff >= 2) {
+
+      await sendNotification(med);
+
+      med.lastReminder = new Date();
+
+      await med.save();
+    }
+  }
+
+});
 
   },
   {
