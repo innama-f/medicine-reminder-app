@@ -43,7 +43,7 @@ const Login = () => {
           </h2>
 
           <p className="opacity-80 mb-6">
-            MediTrack helps you manage your medicines, set reminders,
+            MedTrack helps you manage your medicines, set reminders,
             and stay healthy every day.
           </p>
 
